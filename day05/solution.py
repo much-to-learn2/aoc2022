@@ -9,6 +9,12 @@ class Stacks:
         for _ in range(n):
             self.stacks[toStack].append(self.stacks[fromStack].pop())
 
+    def move_9001(self, n: int, fromStack: int, toStack: int):
+        buff = []
+        for _ in range(n):
+            buff.append(self.stacks[fromStack].pop())
+        self.stacks[toStack].extend(reversed(buff))
+
     @property
     def tops(self):
         res = []
@@ -54,11 +60,16 @@ with open("input.txt", "r") as f:
         init.append(curr.rstrip("\n"))
         curr = f.readline()
     stacks = Stacks.from_strings(init)
+    stacks2 = Stacks.from_strings(init)
 
     for line in f.readlines():
         line = line.rstrip("\n")
         n, fromStack, toStack = stacks.parse_command_string(line)
         stacks.move(n, fromStack, toStack)
+        stacks2.move_9001(n, fromStack, toStack)
 
 solution1 = stacks.tops
 print(f"{solution1=}")
+
+solution2 = stacks2.tops
+print(f"{solution2=}")
