@@ -5,11 +5,12 @@ def get_priority(*args) -> int:
     res = 0
     # 'a' = 97, 'A' = 65
     for c in intersect:
-        res += ord(c)
-        if c.isupper():
-            res -= 38
-        else:
-            res -= 96
+        res += (ord(c) - ord("a") + 1) % 58
+        #res += ord(c)
+        #if c.isupper():
+        #    res -= 38
+        #else:
+        #    res -= 96
     return res
 
 with open("input.txt", "r") as f:
