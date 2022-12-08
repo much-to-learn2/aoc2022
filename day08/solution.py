@@ -34,8 +34,22 @@ class Node:
                     return
                 curr = curr.neighbors[direction]
         self.visible = False
-                
-     
+
+    @property
+    def scenic_score(self):
+        res = 1
+        for direction in direction_map:
+            if direction not in self.neighbors:
+                continue
+            score = 1
+            curr = self.neighbors[direction]
+            while curr.value < self.value and not curr.edge:
+                score += 1
+                curr = curr.neighbors[direction]
+            res *= score
+        return res
+            
+                     
 class Graph:
     def __init__(self, points: List[List[int]]):
         self.x_len = len(points)
@@ -52,7 +66,6 @@ class Graph:
         recursive approach doesn't work for large input,
         because python recursive limit is ~1000
         """
-        print(f"creating node {(x,y)}")
         edge = False
         if x in {0, self.x_len - 1} or y in {0, self.y_len - 1}:
             edge = True
@@ -97,3 +110,6 @@ with open("input.txt", "r") as f:
 
 solution1 = g.n_visible
 print(f"{solution1=}")
+
+solution2 = max(node.scenic_score for node in g.nodes.values())
+print(f"{solution2=}")
